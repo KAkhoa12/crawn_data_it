@@ -1,0 +1,1 @@
+Chạy itviet_crawn trước, sau đó mới chạy npl  
