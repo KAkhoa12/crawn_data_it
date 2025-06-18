@@ -1,0 +1,290 @@
+Git
+GitHub
+GitLab
+Bitbucket
+SVN
+Mercurial
+Perforce
+Azure DevOps
+SourceTree
+GitKraken
+Git Flow
+GitHub Actions
+GitLab CI
+Bitbucket Pipelines
+Docker
+Kubernetes
+Docker Compose
+Docker Swarm
+Podman
+OpenShift
+Rancher
+Helm
+Istio
+Linkerd
+Containerd
+CRI-O
+Jenkins
+GitHub Actions
+GitLab CI/CD
+Azure DevOps
+CircleCI
+Travis CI
+TeamCity
+Bamboo
+ArgoCD
+Tekton
+Drone
+CodePipeline
+CodeBuild
+CodeDeploy
+Terraform
+Ansible
+Puppet
+Chef
+SaltStack
+CloudFormation
+ARM Templates
+Pulumi
+Vagrant
+Packer
+Prometheus
+Grafana
+ELK Stack
+Elasticsearch
+Logstash
+Kibana
+Fluentd
+Splunk
+Datadog
+New Relic
+AppDynamics
+Dynatrace
+Jaeger
+Zipkin
+Sentry
+Nagios
+Zabbix
+CloudWatch
+Azure Monitor
+Google Cloud Monitoring
+Linux
+Ubuntu
+CentOS
+Red Hat
+Debian
+SUSE
+Alpine Linux
+Amazon Linux
+Windows Server
+macOS
+Unix
+FreeBSD
+OpenBSD
+Apache
+Nginx
+IIS
+Tomcat
+Jetty
+HAProxy
+Traefik
+Envoy
+Caddy
+LiteSpeed
+RabbitMQ
+Apache Kafka
+Redis Pub/Sub
+Amazon SQS
+Amazon SNS
+Azure Service Bus
+Google Pub/Sub
+Apache Pulsar
+NATS
+ZeroMQ
+ActiveMQ
+Postman
+Insomnia
+Swagger/OpenAPI
+GraphQL
+REST API
+gRPC
+SOAP
+Apigee
+Kong
+Zuul
+Ambassador
+Newman
+Curl
+HTTPie
+OWASP
+SSL/TLS
+OAuth
+JWT
+SAML
+LDAP
+Active Directory
+Keycloak
+Auth0
+Okta
+HashiCorp Vault
+AWS IAM
+Azure AD
+Penetration Testing
+Vulnerability Assessment
+SIEM
+Firewall
+VPN
+WAF
+Jest
+Mocha
+Chai
+Cypress
+Selenium
+Puppeteer
+Playwright
+JUnit
+TestNG
+PyTest
+RSpec
+PHPUnit
+Postman Tests
+Artillery
+JMeter
+LoadRunner
+K6
+phpMyAdmin
+pgAdmin
+MongoDB Compass
+Robo 3T
+DataGrip
+MySQL Workbench
+SQL Server Management Studio
+Oracle SQL Developer
+DBeaver
+Navicat
+Sequel Pro
+TablePlus
+Visual Studio Code
+IntelliJ IDEA
+PyCharm
+WebStorm
+PhpStorm
+Eclipse
+NetBeans
+Atom
+Sublime Text
+Vim
+Neovim
+Emacs
+Android Studio
+Xcode
+Visual Studio
+Jira
+Confluence
+Trello
+Asana
+Notion
+Slack
+Microsoft Teams
+Discord
+Zoom
+Agile
+Scrum
+Kanban
+Waterfall
+DevOps
+GitOps
+Figma
+Adobe XD
+Sketch
+InVision
+Zeplin
+Adobe Photoshop
+Adobe Illustrator
+Canva
+Wireframing
+UI/UX Design
+Responsive Design
+TCP/IP
+HTTP/HTTPS
+DNS
+Load Balancing
+CDN
+VPN
+Firewall
+Network Security
+Subnetting
+VLAN
+BGP
+OSPF
+SSL/TLS
+Caching
+Redis Caching
+Memcached
+Varnish
+CDN
+Code Optimization
+Database Optimization
+Query Optimization
+Load Testing
+Performance Monitoring
+APM Tools
+Google Analytics
+Google Tag Manager
+Mixpanel
+Amplitude
+Hotjar
+Segment
+Adobe Analytics
+Facebook Pixel
+LinkedIn Insight Tag
+WordPress
+Drupal
+Joomla
+Strapi
+Contentful
+Sanity
+Ghost
+Hugo
+Jekyll
+Gatsby
+Shopify
+WooCommerce
+Magento
+BigCommerce
+PrestaShop
+OpenCart
+Salesforce Commerce Cloud
+HTTP/HTTPS
+WebSocket
+gRPC
+MQTT
+AMQP
+STOMP
+TCP/UDP
+FTP/SFTP
+SSH
+Telnet
+Kaggle
+Google Colab
+AWS SageMaker
+Azure ML
+Google AI Platform
+Databricks
+MLflow
+Kubeflow
+TensorBoard
+Weights & Biases
+Neptune
+ClearML
+Solidity
+Web3.js
+Ethereum
+Bitcoin
+Smart Contracts
+Truffle
+Hardhat
+MetaMask
+IPFS
+
+

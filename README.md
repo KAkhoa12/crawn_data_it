@@ -1,1 +1,4 @@
-Chạy itviet_crawn trước, sau đó mới chạy npl  
+- Cào dữ liệu
+- Tiền xử lý dữ liệu 
+- Trực quan hóa dữ liệu
+- huấn luyện 4 mô hình  

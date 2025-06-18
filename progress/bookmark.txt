@@ -1,0 +1,15 @@
+1. JD - Job Descriptions CSV
+- id: Mã jd với tiền tố JOB_
+- title: Tên công việc
+- company: Tên công ty
+- location: Vị trí làm việc tại công ty
+- salary: lương 
+- description: Mô tả công việc
+- requirements: yêu cầu công việc
+- skills(skills_en): Các kỹ năng trong công việc
+- language: Ngôn ngữ của jd
+- description_en: Mô tả công việc sau khi dịch sang tiếng anh
+- requirements_en: Yêu cầu công việc sau khi dịch sang tiếng anh
+
+2. CR - Candidate Resumes CSV
+- 

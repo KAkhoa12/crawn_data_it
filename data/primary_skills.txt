@@ -1,0 +1,175 @@
+Python
+Java
+JavaScript
+TypeScript
+C++
+C#
+Golang
+Rust
+PHP
+Ruby
+Swift
+Kotlin
+Scala
+MATLAB
+Perl
+Dart
+Objective-C
+Visual Basic
+Assembly
+Fortran
+COBOL
+Haskell
+Erlang
+Elixir
+Clojure
+F#
+Julia
+Lua
+Shell Script
+Bash
+PowerShell
+React
+Angular
+Vue.js
+Next.js
+Nuxt.js
+Svelte
+SvelteKit
+Express.js
+Node.js
+Django
+Flask
+FastAPI
+Spring Boot
+Spring Framework
+ASP.NET
+ASP.NET Core
+Laravel
+Symfony
+CodeIgniter
+Ruby on Rails
+Sinatra
+Phoenix
+Echo
+Fiber
+Beego
+React Native
+Flutter
+Ionic
+Xamarin
+Apache Cordova
+PhoneGap
+NativeScript
+Android SDK
+iOS SDK
+SwiftUI
+UIKit
+Electron
+Qt
+WPF
+WinForms
+JavaFX
+tkinter
+PyQt
+Kivy
+GTK
+Tauri
+MySQL
+PostgreSQL
+MongoDB
+Redis
+Cassandra
+DynamoDB
+Firebase
+Supabase
+SQLite
+Oracle
+SQL Server
+MariaDB
+CouchDB
+Neo4j
+InfluxDB
+TimescaleDB
+Elasticsearch
+Solr
+Amazon RDS
+Google Cloud SQL
+Azure SQL
+TensorFlow
+PyTorch
+Keras
+Scikit-learn
+Pandas
+NumPy
+OpenCV
+YOLO
+Transformers
+Hugging Face
+LangChain
+OpenAI API
+Anthropic Claude
+Gemini API
+Computer Vision
+Natural Language Processing
+Deep Learning
+Machine Learning
+Reinforcement Learning
+Neural Networks
+Convolutional Neural Networks
+Recurrent Neural Networks
+LSTM
+GRU
+Transformer
+BERT
+GPT
+T5
+ResNet
+VGG
+Inception
+MobileNet
+EfficientNet
+U-Net
+GAN
+VAE
+XGBoost
+LightGBM
+CatBoost
+Random Forest
+Support Vector Machine
+K-Means
+DBSCAN
+Linear Regression
+Logistic Regression
+Decision Tree
+Naive Bayes
+Gradient Boosting
+Jupyter
+Google Colab
+Apache Spark
+Hadoop
+Kafka
+Airflow
+Tableau
+Power BI
+Looker
+Grafana
+D3.js
+Plotly
+Matplotlib
+Seaborn
+Bokeh
+Streamlit
+Dash
+Apache Superset
+AWS
+Google Cloud Platform
+Microsoft Azure
+DigitalOcean
+Linode
+Vultr
+Heroku
+Vercel
+Netlify
+Firebase Hosting
+GitHub Pages
