@@ -1,0 +1,20 @@
+{
+  "best_model_name": "Improved AdaBoost",
+  "feature_names": [
+    "primary_skills_sim",
+    "secondary_skills_sim",
+    "adjectives_sim"
+  ],
+  "feature_count": 3,
+  "suitability_mapping": {
+    "0": "Not Suitable",
+    "1": "Moderately Suitable",
+    "2": "Most Suitable"
+  },
+  "model_performance": {
+    "test_accuracy": 0.8558558558558559,
+    "overfitting_gap": 0.0015770888845562103,
+    "cv_score": 0.8,
+    "cv_std": 0.015757977227343085
+  }
+}

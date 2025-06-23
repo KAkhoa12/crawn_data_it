@@ -211,11 +211,8 @@ Temporary Items
 .Trash-*
 .nfs*
 
-# Data files (CSV, Excel, etc.)
-*.csv
 *.xlsx
 *.xls
-*.json
 *.xml
 *.parquet
 
