@@ -7,3 +7,7 @@
 
 - API extract 4 clusters ( làm y chang CR và JD)
 - API Recommendation ( làm y chang CR và JD)
+
+- Tách 4 skills từ decriptions, CV -> lưu vào cv, JD -> lưu vào job
+
+- Xử lý matche
