@@ -128,10 +128,10 @@ async def extract_all_features_api(
             # Update existing CV
             existing_cv.name = file.filename
             existing_cv.upload_at = datetime.now()
-            existing_cv.primary_skills = features['primary_skills']
-            existing_cv.secondary_skills = features['secondary_skills']
-            existing_cv.adverbs = features['adverbs']
-            existing_cv.adjectives = features['adjectives']
+            existing_cv.primary_skills = ', '.join(features['primary_skills'])
+            existing_cv.secondary_skills = ', '.join(features['secondary_skills'])
+            existing_cv.adverbs = ', '.join(features['adverbs'])
+            existing_cv.adjectives = ', '.join(features['adjectives'])
 
             db.commit()
             db.refresh(existing_cv)
