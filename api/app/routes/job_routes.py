@@ -144,10 +144,10 @@ async def extract_all_features_jd_api(
             member=cleaned_member,            # Use cleaned member
             work_type_id=job_data.work_type_id,
             category_id=job_data.category_id,
-            primary_skills=features['primary_skills'],
-            secondary_skills=features['secondary_skills'],
-            adverbs=features['adverbs'],
-            adjectives=features['adjectives']
+            primary_skills= ', '.join(features['primary_skills']),
+            secondary_skills=', '.join(features['secondary_skills']),
+            adverbs=', '.join(features['adverbs']),
+            adjectives=', '.join(features['adjectives'])
         )
 
         db.add(job_record)
