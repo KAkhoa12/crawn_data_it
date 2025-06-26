@@ -1,5 +1,0 @@
-Model,Train_Accuracy,Test_Accuracy,Overfitting
-Linear Regression,0.9375,1.0,-0.0625
-Decision Tree,1.0,1.0,0.0
-AdaBoost,0.975,1.0,-0.025000000000000022
-XGBoost,0.975,1.0,-0.025000000000000022
