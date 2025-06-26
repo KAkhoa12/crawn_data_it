@@ -1,0 +1,16 @@
+Các khó khăn:
+1. Thiếu dữ liệu rất nhiều từ tập CR và JD ( khắc phục là tìm kiếm và bổ sung)
+2. Chênh lệch dữ liệu rất nhiều JD là > 2k, CR chỉ có ~ 840
+3. Dữ liệu của data để huấn luyện trong tập jd_cr_similarity.csv 
++ Ban đầu lấy các trường như
+ 'primary_skills', 
+ 'secondary_skill',	
+ 'adjectives',	
+ 'adj_weight',	
+ 'total_similarity' 
+để huấn luyện đầu vào và đầu ra là 'suitability'
+=> Tuy nhiên kết quả lại bị overfiting do mô hình học quá đúng dữ liệu tính toán từ suitability nên diễn ra bị học vẹt (Cách khắc phục là chỉ cần cho học primary_skills thì kết quả tuy không cao nhưng nó chính xác 1 phần )
+
+
+Mô hình đạt 69% dự đoán 
+ví dụ mô hình có 100 dòng -> dự đoán đúng 69 dòng 

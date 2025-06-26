@@ -11,3 +11,5 @@
 - Tách 4 skills từ decriptions, CV -> lưu vào cv, JD -> lưu vào job
 
 - Xử lý matche
+
+- thay lưu mảng thành dấy , 
