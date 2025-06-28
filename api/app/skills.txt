@@ -1,0 +1,695 @@
+Python
+Java
+JavaScript
+TypeScript
+C++
+C#
+Golang
+Rust
+PHP
+Ruby
+Swift
+Kotlin
+Scala
+MATLAB
+Perl
+CICD
+VBA
+Dart
+Objective-C
+Visual Basic
+Assembly
+Fortran
+COBOL
+Haskell
+Erlang
+Elixir
+Clojure
+Julia
+Shell Script
+Bash
+PowerShell
+React
+Angular
+Vuejs
+Nextjs
+Nuxtjs
+Svelte
+SvelteKit
+Expressjs
+Nodejs
+Django
+Flask
+FastAPI
+Java Spring
+Spring Boot
+Spring Framework
+ASPNET
+ASPNET Core
+Laravel
+Symfony
+UI UX 
+UIUX
+FullStack
+JQuery
+Nodejs
+CodeIgniter
+Ruby on Rails
+Sinatra
+Phoenix
+Echo
+Fiber
+Beego
+React Native
+Flutter
+Ionic
+Xamarin
+Apache Cordova
+PhoneGap
+NativeScript
+Android SDK
+iOS SDK
+SwiftUI
+UIKit
+Electron
+Qt
+WPF
+WinForms
+JavaFX
+tkinter
+PyQt
+Kivy
+GTK
+Tauri
+SQL
+NoSQl
+No-SQl
+MySQL
+PostgreSQL
+MongoDB
+Redis
+Cassandra
+DynamoDB
+Firebase
+Supabase
+SQLite
+Oracle
+SQL Server
+MariaDB
+CouchDB
+Neo4j
+InfluxDB
+TimescaleDB
+Elasticsearch
+Solr
+Amazon RDS
+Google Cloud SQL
+Azure SQL
+TensorFlow
+PyTorch
+Keras
+Scikit-learn
+Pandas
+NumPy
+OpenCV
+YOLO
+chatbot
+Automation
+Transformers
+Hugging Face
+LangChain
+OpenAI API
+Anthropic Claude
+Gemini API
+Computer Vision
+Natural Language Processing
+Deep Learning
+Machine Learning
+Reinforcement Learning
+Neural Networks
+Convolutional Neural Networks
+Recurrent Neural Networks
+LSTM
+GRU
+Transformer
+BERT
+GPT
+Html
+html5
+css
+sass
+scss
+T5
+RESTful
+ResNet
+VGG
+Inception
+MobileNet
+EfficientNet
+U-Net
+GAN
+VAE
+XGBoost
+LightGBM
+CatBoost
+Random Forest
+Support Vector Machine
+K-Means
+DBSCAN
+Linear Regression
+Logistic Regression
+Decision Tree
+Naive Bayes
+Gradient Boosting
+Jupyter
+Google Colab
+Apache Spark
+Hadoop
+Oop
+Kafka
+Airflow
+Tableau
+Power BI
+Looker
+Grafana
+D3js
+Plotly
+Matplotlib
+Seaborn
+Bokeh
+Streamlit
+Dash
+Apache Superset
+AWS
+Google Cloud Platform
+Microsoft Azure
+DigitalOcean
+Linode
+Vultr
+Heroku
+Vercel
+Netlify
+Firebase Hosting
+GitHub Pages
+Software Engineer
+Software
+Frontend Developer
+Backend Developer
+Backend
+CI CD
+Full Stack 
+Full Stack Developer
+Mobile Developer
+Mobile
+iOS Developer
+iOS
+Android Developer
+DevOps
+DevOps Engineer
+DevOps
+Data warehouse
+Data Lake
+Cloud Engineer
+Cloud
+Data Engineer
+Data Scientist
+Machine Learning Engineer
+AI Engineer
+AI
+unit test
+Deep Learning Engineer
+Computer Vision Engineer
+NLP Engineer
+NLP
+MLOps Engineer
+MLOps
+Data Analyst
+Business Analyst
+Business Intelligence Analyst
+Systems Analyst
+Database Administrator
+Database Developer
+Network Engineer
+Network
+Security Engineer
+Security
+KNN
+cybersecurity
+Cybersecurity Analyst
+Penetration Tester
+Tester
+QA Engineer
+QA
+QA Analyst
+Test Automation Engineer
+Automation
+Product Manager
+Technical Product Manager
+Project Manager
+Scrum Master
+Agile Coach
+Technical Lead
+Team Lead
+Lead Manager
+CTO
+VP Engineering
+Solution Architect
+Software Architect
+System Architect
+Cloud Architect
+Data Architect
+Enterprise Architect
+Site Reliability Engineer
+Reliability
+Platform Engineer
+Platform
+Infrastructure Engineer
+Infrastructure
+Release Engineer
+Release
+Build Engineer
+UI/UX Designer
+Designer
+Product Designer
+UX Researcher
+Frontend Designer
+Frontend
+Web Designer
+Game Developer
+Game
+Unity Developer
+Unity
+Unreal Developer
+Unreal
+Blockchain Developer
+Blockchain
+Smart Contract Developer
+Smart Contract
+Web3 Developer
+Web3
+PQA
+QA QC
+API Developer
+
+Integration Engineer
+Technical Writer
+Developer Advocate
+Sales Engineer
+Sales
+Pre-sales Engineer
+sales
+Technical Consultant
+Implementation Specialist
+Customer Success Engineer
+Support Engineer
+Application Support
+Production
+Database
+Production Support
+Database Support
+Research Scientist
+Research Engineer
+Quantitative Analyst
+Financial Engineer
+Financial
+Trading Systems Developer
+Trading Systems
+Risk Analyst
+Compliance Engineer
+Compliance
+GIS Developer
+GIS
+Embedded
+Embedded Systems
+Embedded Systems Engineer
+Systems
+Firmware Engineer
+Firmware
+Hardware Engineer
+Hardware
+Robotics Engineer
+Robotics
+IoT Developer
+IoT
+Edge Computing Engineer
+Computing
+Performance Engineer
+Performance
+Reliability Engineer
+Reliability
+Monitoring Engineer
+Data processing
+Observability Engineer
+Observability
+ETL Developer
+ETL
+Data Pipeline Engineer
+Pipeline
+Big Data Engineer
+Analytics Engineer
+Analytics
+Reporting Analyst
+Marketing Analyst
+Growth Analyst
+Operations Analyst
+Financial Analyst
+Credit Analyst
+Fraud Analyst
+Revenue Analyst
+Pricing Analyst
+Demand Planner
+Supply Chain Analyst
+Logistics Analyst
+HR Analyst
+People Analytics
+Recruitment Analyst
+Compensation Analyst
+Learning & Development Specialist
+Training Specialist
+Technical Trainer
+Solutions Engineer
+Field Engineer
+Professional Services
+Implementation Manager
+Delivery Manager
+Program Manager
+Portfolio Manager
+Strategy Analyst
+Management Consultant
+Technology Consultant
+Digital Transformation Consultant
+ERP Consultant
+CRM Consultant
+Salesforce Administrator
+Salesforce Developer
+Salesforce
+SharePoint Developer
+SharePoint
+Power Platform Developer
+Power Platform
+ServiceNow Developer
+ServiceNow
+Workday Consultant
+SAP Consultant
+Oracle Consultant
+Microsoft Consultant
+Git
+GitHub
+GitLab
+Bitbucket
+SVN
+Mercurial
+Perforce
+Azure DevOps
+SourceTree
+optimization
+statistics
+GitKraken
+Git Flow
+GitHub Actions
+GitLab CI
+power bi
+Bitbucket Pipelines
+Docker
+Kubernetes
+Docker Compose
+Docker Swarm
+Podman
+OpenShift
+Rancher
+Helm
+Istio
+Linkerd
+Containerd
+CRI-O
+Jenkins
+GitHub Actions
+GitLab CI/CD
+Azure DevOps
+CircleCI
+Travis CI
+TeamCity
+Bamboo
+ArgoCD
+Tekton
+Drone
+CodePipeline
+CodeBuild
+CodeDeploy
+Terraform
+Ansible
+Puppet
+Chef
+SaltStack
+CloudFormation
+ARM Templates
+Pulumi
+Vagrant
+Packer
+Prometheus
+Grafana
+ELK Stack
+Elasticsearch
+Logstash
+Kibana
+Fluentd
+Splunk
+Datadog
+New Relic
+AppDynamics
+Dynatrace
+Jaeger
+Zipkin
+Sentry
+Nagios
+Zabbix
+CloudWatch
+Azure Monitor
+Google Cloud Monitoring
+Linux
+Ubuntu
+CentOS
+Red Hat
+Debian
+SUSE
+Alpine Linux
+Amazon Linux
+Windows Server
+macOS
+Unix
+FreeBSD
+OpenBSD
+Apache
+Nginx
+IIS
+Tomcat
+Jetty
+HAProxy
+Traefik
+Envoy
+Caddy
+LiteSpeed
+RabbitMQ
+Apache Kafka
+Redis Pub/Sub
+Amazon SQS
+Amazon SNS
+Azure Service Bus
+Google Pub/Sub
+Apache Pulsar
+NATS
+ZeroMQ
+ActiveMQ
+Postman
+Insomnia
+Swagger/OpenAPI
+GraphQL
+REST API
+gRPC
+SOAP
+Apigee
+Kong
+Zuul
+Ambassador
+Newman
+Curl
+HTTPie
+OWASP
+SSL/TLS
+OAuth
+JWT
+SAML
+LDAP
+Active Directory
+Keycloak
+Auth0
+Okta
+HashiCorp Vault
+AWS IAM
+Azure AD
+Penetration Testing
+Vulnerability Assessment
+SIEM
+Firewall
+VPN
+WAF
+Jest
+Mocha
+Chai
+Cypress
+Selenium
+Puppeteer
+Playwright
+JUnit
+TestNG
+PyTest
+Monitoring
+RSpec
+PHPUnit
+Postman Tests
+Artillery
+JMeter
+LoadRunner
+K6
+API
+k8s
+phpMyAdmin
+pgAdmin
+MongoDB Compass
+Robo 3T
+DataGrip
+MySQL Workbench
+SQL Server Management Studio
+Oracle SQL Developer
+DBeaver
+Navicat
+Sequel Pro
+TablePlus
+Visual Studio Code
+IntelliJ IDEA
+PyCharm
+WebStorm
+PhpStorm
+Eclipse
+NetBeans
+Atom
+Sublime Text
+Vim
+Neovim
+Emacs
+Android Studio
+Xcode
+Visual Studio
+Jira
+Confluence
+Trello
+Asana
+Notion
+Slack
+Microsoft Teams
+Discord
+Zoom
+Agile
+Scrum
+Kanban
+typography
+Waterfall
+DevOps
+GitOps
+Figma
+Adobe XD
+Sketch
+InVision
+Zeplin
+Illustrator
+Photoshop
+Adobe Photoshop
+Adobe Illustrator
+Canva
+Wireframing
+UI/UX Design
+Responsive Design
+TCP/IP
+HTTP/HTTPS
+DNS
+Load Balancing
+CDN
+VPN
+Firewall
+Network Security
+Subnetting
+VLAN
+BGP
+OSPF
+SSL/TLS
+Caching
+Redis Caching
+Memcached
+Varnish
+CDN
+Code Optimization
+Database Optimization
+Query Optimization
+Load Testing
+Performance Monitoring
+APM Tools
+Google Analytics
+Google Tag Manager
+Mixpanel
+Amplitude
+Hotjar
+Segment
+Adobe Analytics
+Facebook Pixel
+LinkedIn Insight Tag
+WordPress
+Drupal
+Joomla
+Strapi
+Contentful
+Sanity
+Ghost
+Hugo
+Jekyll
+Gatsby
+Shopify
+WooCommerce
+Magento
+BigCommerce
+PrestaShop
+OpenCart
+Salesforce Commerce Cloud
+HTTP/HTTPS
+WebSocket
+gRPC
+MQTT
+AMQP
+STOMP
+TCP/UDP
+FTP/SFTP
+SSH
+Telnet
+Kaggle
+Google Colab
+AWS SageMaker
+Azure ML
+Google AI Platform
+Databricks
+MLflow
+Kubeflow
+TensorBoard
+Weights & Biases
+Neptune
+ClearML
+Solidity
+Web3.js
+Ethereum
+Bitcoin
+Smart Contracts
+Truffle
+Hardhat
+MetaMask
+IPFS
+npm
+yarn
+bun

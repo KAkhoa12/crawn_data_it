@@ -9,7 +9,7 @@ import PyPDF2
 import io
 from datetime import datetime
 from utils.read_file import read_skills
-from utils.extract import extract_primary_skills, extract_secondary_skills, extract_adjectives, extract_adverbs
+from utils.extract import extract_skills, extract_adjectives, extract_adverbs, clean_text_for_matching
 from utils.connection_db import get_db, CVModel, JobModel, MatchesModel
 from sqlalchemy.orm import Session
 import spacy
@@ -20,8 +20,7 @@ router = APIRouter(prefix="/match", tags=["Job-CV Matching"])
 nlp_en = spacy.load('en_core_web_md')
 
 # Load skills
-primary_skills = read_skills('app/primary_skills.txt')
-secondary_skills = read_skills('app/secondary_skills.txt')
+skills = read_skills('app/skills.txt')
 
 # Global model variables
 model = None
@@ -43,56 +42,43 @@ class CVMatchResponse(BaseModel):
     total_matches: int
     matches: List[MatchResult]
 
-def extract_text_from_pdf(file_content: bytes) -> str:
-    try:
-        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file_content))
-        text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text()
-        return text
-    except:
-        return ""
-
 def extract_all_features(text: str) -> Dict[str, list]:
-    primary_skills_list = extract_primary_skills(text, primary_skills)
-    secondary_skills_list = extract_secondary_skills(text, secondary_skills)
-    adverbs = extract_adverbs(text, nlp_en)
-    adjectives = extract_adjectives(text, nlp_en)
-
+    doc = nlp_en(text)
+    tokens = [token.text.lower() for token in doc if not token.is_stop and not token.is_punct]
+    
     return {
-        'primary_skills': primary_skills_list,
-        'secondary_skills': secondary_skills_list,
-        'adverbs': adverbs,
-        'adjectives': adjectives
+        'skills_required': extract_skills(text, skills),
+        'secondary_skills': extract_skills(text, skills),  # Có thể thay bằng logic khác
+        'adverbs': [token for token in tokens if nlp_en.vocab[token].tag_ == 'RB'],
+        'adjectives': [token for token in tokens if nlp_en.vocab[token].tag_ == 'JJ']
     }
 
 def load_model():
-    global model, preprocessing, metadata
+    global model, scaler
     try:
-        models_dir = Path("models")
-        print(f"Loading model from: {models_dir.absolute()}")
+        models_dir = Path("app/output/models")
+        print(f"Loading model and scaler from: {models_dir.absolute()}")
 
-        # Check if files exist
-        model_file = models_dir / "best_model.joblib"
-        preprocessing_file = models_dir / "preprocessing.joblib"
-        metadata_file = models_dir / "model_metadata.json"
+        # Tìm model và scaler mới nhất
+        model_files = list(models_dir.glob("best_model_xgboost.pkl"))
+        scaler_file = models_dir / "scaler.pkl"
+        
+        if not model_files:
+            print("❌ Model file not found: best_model_xgboost.pkl")
+            return False
+            
+        if not scaler_file.exists():
+            print(f"❌ Scaler file not found: {scaler_file}")
+            return False
 
-        if not model_file.exists():
-            print(f"❌ Model file not found: {model_file}")
-            return False
-        if not preprocessing_file.exists():
-            print(f"❌ Preprocessing file not found: {preprocessing_file}")
-            return False
-        if not metadata_file.exists():
-            print(f"❌ Metadata file not found: {metadata_file}")
-            return False
+        # Lấy file mới nhất
+        model_file = sorted(model_files, key=lambda x: x.stat().st_mtime, reverse=True)[0]
 
         model = joblib.load(model_file)
-        preprocessing = joblib.load(preprocessing_file)
-        with open(metadata_file) as f:
-            metadata = json.load(f)
+        scaler = joblib.load(scaler_file)
 
-        print("✅ Model loaded successfully!")
+        print(f"✅ Model loaded successfully from {model_file}")
+        print(f"✅ Scaler loaded from {scaler_file}")
         return True
     except Exception as e:
         print(f"❌ Error loading model: {e}")
@@ -106,41 +92,69 @@ def calculate_similarity(features1: Dict, features2: Dict) -> Dict[str, float]:
         union = len(set1.union(set2))
         return intersection / union if union > 0 else 0.0
 
+    # Tính similarity cho trọng số tính từ (adj_weight)
+    adj_weight_sim = 1 - abs(len(features1['adjectives']) - len(features2['adjectives'])) / max(
+        len(features1['adjectives']) + 1, len(features2['adjectives']) + 1)
+
     return {
-        'primary_skills_sim': jaccard_similarity(set(features1['primary_skills']), set(features2['primary_skills'])),
+        'skills_required_sim': jaccard_similarity(set(features1['skills_required']), set(features2['primary_skills'])),
         'secondary_skills_sim': jaccard_similarity(set(features1['secondary_skills']), set(features2['secondary_skills'])),
-        'adjectives_sim': jaccard_similarity(set(features1['adjectives']), set(features2['adjectives']))
+        'adjectives_sim': jaccard_similarity(set(features1['adjectives']), set(features2['adjectives'])),
+        'adj_weight_sim': adj_weight_sim
     }
 
 def get_matched_primary_skills(cv_skills: List[str], job_skills: List[str]) -> List[str]:
-    """Get the intersection of primary skills between CV and Job"""
+    """Get the intersection of skills_required in CV and primary_skills in Job"""
     cv_skills_set = set(skill.lower().strip() for skill in cv_skills)
     job_skills_set = set(skill.lower().strip() for skill in job_skills)
     matched_skills = cv_skills_set.intersection(job_skills_set)
     return list(matched_skills)
 
 def predict_suitability(similarities: Dict[str, float]) -> Dict:
-    # Check if model is loaded
-    if model is None or preprocessing is None or metadata is None:
-        raise HTTPException(status_code=500, detail="Model not loaded. Please check model files.")
+    # Check if model and scaler are loaded
+    if model is None or scaler is None:
+        raise HTTPException(status_code=500, detail="Model or scaler not loaded. Please check model files.")
 
-    feature_vector = []
-    for feature_name in metadata['feature_names']:
-        feature_vector.append(similarities.get(feature_name, 0.0))
-
-    X = np.array(feature_vector).reshape(1, -1)
-    X_scaled = preprocessing['scaler'].transform(X)
-    X_selected = preprocessing['feature_selector'].transform(X_scaled)
-
-    prediction = model.predict(X_selected)[0]
-    probabilities = model.predict_proba(X_selected)[0]
-
-    confidence_scores = {}
-    for i, prob in enumerate(probabilities):
-        confidence_scores[metadata['suitability_mapping'][str(i)]] = float(prob)
-
+    # Tạo feature vector từ các similarity scores
+    features = {
+        'primary_sim': similarities.get('skills_required_sim', 0.0),
+        'secondary_sim': similarities.get('secondary_skills_sim', 0.0),
+        'adj_sim': similarities.get('adjectives_sim', 0.0),
+        'adj_weight': 1.0  # Giá trị mặc định
+    }
+    
+    # Tính toán các derived features (giống như trong training)
+    features['primary_secondary_ratio'] = features['primary_sim'] / (features['secondary_sim'] + 1e-8)
+    features['primary_adj_ratio'] = features['primary_sim'] / (features['adj_sim'] + 1e-8)
+    features['primary_secondary_diff'] = features['primary_sim'] - features['secondary_sim']
+    features['weighted_primary'] = features['primary_sim'] * features['adj_weight']
+    features['composite_score'] = (features['primary_sim'] * 0.5 + 
+                                  features['secondary_sim'] * 0.3 + 
+                                  features['adj_sim'] * 0.2)
+    
+    # Tạo input vector theo đúng thứ tự feature
+    input_features = np.array([
+        features['primary_sim'],
+        features['secondary_sim'],
+        features['adj_sim'],
+        features['adj_weight'],
+        features['primary_secondary_ratio'],
+        features['primary_adj_ratio'],
+        features['primary_secondary_diff'],
+        features['weighted_primary'],
+        features['composite_score']
+    ]).reshape(1, -1)
+    
+    # Chuẩn hóa dữ liệu
+    scaled_input = scaler.transform(input_features)
+    
+    # Dự đoán
+    prediction = model.predict(scaled_input)[0]
+    
+    # Ánh xạ kết quả
+    suitability_mapping = {0: 'Not Suitable', 1: 'Suitable'}
     return {
-        'suitability_label': metadata['suitability_mapping'][str(prediction)],
+        'suitability_label': suitability_mapping.get(prediction, 'Unknown')
     }
 
 @router.post("/cv/{cv_id}/match-all-jobs", response_model=CVMatchResponse)
@@ -153,9 +167,9 @@ async def match_cv_with_all_jobs(cv_id: int, db: Session = Depends(get_db)):
     if not cv:
         raise HTTPException(status_code=404, detail="CV not found")
 
-    # Get CV features
+    # Sử dụng skills_required từ CV
     cv_features = {
-        'primary_skills': cv.primary_skills or [],
+        'skills_required': cv.skills or [],  # Sử dụng trường skills_required
         'secondary_skills': cv.secondary_skills or [],
         'adverbs': cv.adverbs or [],
         'adjectives': cv.adjectives or []
@@ -181,9 +195,9 @@ async def match_cv_with_all_jobs(cv_id: int, db: Session = Depends(get_db)):
             # Calculate Jaccard similarities
             similarities = calculate_similarity(cv_features, job_features)
 
-            # Get matched primary skills
+            # Get matched primary skills (skills_required in CV vs primary_skills in Job)
             matched_primary_skills = get_matched_primary_skills(
-                cv_features['primary_skills'],
+                cv_features['skills_required'],
                 job_features['primary_skills']
             )
 
