@@ -22,8 +22,7 @@ class CVBase(BaseModel):
     upload_at: str
 
 class CVResponse4Cluster(BaseModel):
-    primary_skills: List[str]
-    secondary_skills: List[str]
+    skills_required: List[str]
     adverbs: List[str]
     adjectives: List[str]
 

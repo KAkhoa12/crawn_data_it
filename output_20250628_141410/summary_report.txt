@@ -1,0 +1,37 @@
+FINAL MODEL EVALUATION SUMMARY
+============================================================
+
+1. XGBoost
+   - Test Accuracy: 0.9879
+   - CV Accuracy: 0.9883
+   - Detail Report: output_20250628_141410/reports/xgboost_report.csv
+   - Confusion Matrix: output_20250628_141410/confusion_matrices/xgboost_matrix.png
+
+2. RandomForest
+   - Test Accuracy: 0.9861
+   - CV Accuracy: 0.9827
+   - Detail Report: output_20250628_141410/reports/random_forest_report.csv
+   - Confusion Matrix: output_20250628_141410/confusion_matrices/random_forest_matrix.png
+
+3. LogisticRegression
+   - Test Accuracy: 0.9691
+   - CV Accuracy: 0.9614
+   - Detail Report: output_20250628_141410/reports/logistic_regression_report.csv
+   - Confusion Matrix: output_20250628_141410/confusion_matrices/logistic_regression_matrix.png
+
+4. AdaBoost
+   - Test Accuracy: 0.8633
+   - CV Accuracy: 0.8598
+   - Detail Report: output_20250628_141410/reports/adaboost_report.csv
+   - Confusion Matrix: output_20250628_141410/confusion_matrices/adaboost_matrix.png
+
+
+BEST MODEL RESULTS
+============================================================
+Model: XGBoost
+Accuracy: 0.9879
+
+Cross-Validation Scores:
+Mean: 0.9882
+Std: 0.0017
+Scores: [0.98720539 0.99158107 0.98720323 0.9882135  0.98686648]

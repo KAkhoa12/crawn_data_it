@@ -6,7 +6,7 @@ import io
 from datetime import datetime
 from utils.read_file import read_skills
 from schemas.cv_schemas import CVResponse4Cluster
-from utils.extract import extract_primary_skills, extract_secondary_skills, extract_adjectives, extract_adverbs
+from utils.extract import extract_skills, extract_adjectives, extract_adverbs, clean_text_for_matching
 from utils.connection_db import get_db, CVModel, MatchesModel
 from sqlalchemy.orm import Session
 import spacy
@@ -18,11 +18,10 @@ router = APIRouter(prefix="/cv", tags=["CV Processing"])
 nlp_en = spacy.load('en_core_web_md')
 
 # Load skills
-primary_skills = read_skills('app/primary_skills.txt')
-secondary_skills = read_skills('app/secondary_skills.txt')
+skills = read_skills('app/skills.txt')
 
 class PrimarySkillsResponse(BaseModel):
-    primary_skills: List[str]
+    skills: List[str]
 
 def extract_text_from_pdf(file_content: bytes) -> str:
     try:
@@ -30,7 +29,7 @@ def extract_text_from_pdf(file_content: bytes) -> str:
         text = ""
         for page in pdf_reader.pages:
             text += page.extract_text()
-        return text
+        return clean_text_for_matching(text)
     except:
         return ""
 
@@ -40,7 +39,7 @@ def extract_text_from_docx(file_content: bytes) -> str:
         text = ""
         for paragraph in doc.paragraphs:
             text += paragraph.text + "\n"
-        return text
+        return clean_text_for_matching(text)
     except:
         return ""
 
@@ -53,19 +52,18 @@ def extract_text_from_file(file_content: bytes, content_type: str) -> str:
         return ""
 
 def extract_all_features(text: str) -> Dict[str, List[str]]:
-    primarys = extract_primary_skills(text, primary_skills)
-    secondarys = extract_secondary_skills(text, secondary_skills)
+    skills_list = extract_skills(text, skills)
     adverbs = extract_adverbs(text, nlp_en)
     adjectives = extract_adjectives(text, nlp_en)
 
     return {
-        'primary_skills': primarys,
-        'secondary_skills': secondarys,
+        'skills_required': skills_list,
         'adverbs': adverbs,
-        'adjectives': adjectives
+        'adjectives': adjectives,
+        
     }
 
-@router.post("/extract/primary-skills", response_model=PrimarySkillsResponse)
+@router.post("/extract/skills", response_model=PrimarySkillsResponse)
 async def extract_primary_skills_api(file: UploadFile = File(...)):
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="Only PDF files are supported")
@@ -76,8 +74,8 @@ async def extract_primary_skills_api(file: UploadFile = File(...)):
     if not text:
         raise HTTPException(status_code=400, detail="Could not extract text from PDF")
 
-    skills = extract_primary_skills(text, primary_skills)
-    return PrimarySkillsResponse(primary_skills=skills)
+    skills_list = extract_skills(text, skills)
+    return PrimarySkillsResponse(skills=skills_list)
 
 class CVExtractRequest(BaseModel):
     seeker_id: int
@@ -128,8 +126,10 @@ async def extract_all_features_api(
             # Update existing CV
             existing_cv.name = file.filename
             existing_cv.upload_at = datetime.now()
-            existing_cv.primary_skills = ', '.join(features['primary_skills'])
-            existing_cv.secondary_skills = ', '.join(features['secondary_skills'])
+            existing_cv.skills = ', '.join(features['skills_required'])  # Sử dụng skills_required thay vì primary_skills
+            existing_cv.primary_skills = None
+            existing_cv.experience = None
+            existing_cv.secondary_skills = None
             existing_cv.adverbs = ', '.join(features['adverbs'])
             existing_cv.adjectives = ', '.join(features['adjectives'])
 
@@ -147,10 +147,10 @@ async def extract_all_features_api(
                 experience="experiments",
                 status=1,
                 upload_at=datetime.now(),
-                primary_skills=features['primary_skills'],
-                secondary_skills=features['secondary_skills'],
-                adverbs=features['adverbs'],
-                adjectives=features['adjectives']
+                primary_skills=', '.join(features['skills_required']),
+                secondary_skills=None,
+                adverbs=', '.join(features['adverbs']),
+                adjectives=', '.join(features['adjectives'])
             )
 
             db.add(cv_record)
@@ -160,7 +160,7 @@ async def extract_all_features_api(
             print(f"✅ CV features saved to database with ID: {cv_record.id}")
             cv_id = cv_record.id
 
-    except Exception as e:
+    except Exception as e:  
         db.rollback()
         print(f"❌ Error saving CV features to database: {e}")
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
