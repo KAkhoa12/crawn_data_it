@@ -145,7 +145,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
+data/clean/clean_resumes_v2.csv
 # pytype static type analyzer
 .pytype/
 
@@ -292,3 +292,4 @@ __pycache__/
 Icon?
 ehthumbs.db
 Thumbs.db
+data/clean/clean_resumes_v2.csv
