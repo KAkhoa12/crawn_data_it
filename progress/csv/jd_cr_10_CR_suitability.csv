@@ -1,0 +1,51 @@
+id,cr_id,jd_id,primary_skills_cr,primary_skills_jd,total_similarity,class,matched_primary_skills
+1,CANDIDATE_1,JOB_20,['platform'],"['automation', 'cloud', 'platform']",0.3333333333333333,MOS,['platform']
+2,CANDIDATE_1,JOB_196,['platform'],"['cloud', 'platform']",0.5,MOS,['platform']
+3,CANDIDATE_1,JOB_2195,[],"['software', 'illustrator', 'photoshop']",0.3333333333333333,MOS,[]
+4,CANDIDATE_1,JOB_1142,[],"['scala', 'apache spark', 'hadoop', 'apache']",0.0769230769230769,MOS,[]
+5,CANDIDATE_1,JOB_30,['platform'],"['python', 'sql', 'microsoft azure', 'software', 'ci cd', 'cloud', 'mlops', 'platform', 'etl', 'agile', 'scrum', 'kanban', 'databricks']",0.0769230769230769,MOS,['platform']
+6,CANDIDATE_2,JOB_1793,"['systems', 'software']","['software', 'network', 'systems', 'hardware']",0.7103093348413461,MOS,"['software', 'systems']"
+7,CANDIDATE_2,JOB_71,['software'],"['software', 'financial']",0.6251194808517823,MOS,['software']
+8,CANDIDATE_2,JOB_2345,['software'],"['software', 'tester']",0.6052631578947368,MOS,['software']
+9,CANDIDATE_2,JOB_1549,['python'],['python'],1.1221404455934063,MOS,['python']
+10,CANDIDATE_2,JOB_147,"['python', 'systems']","['python', 'php', 'systems']",0.8367471364591433,MOS,"['python', 'systems']"
+11,CANDIDATE_3,JOB_1269,['python'],['python'],1.4746960594475362,MOS,['python']
+12,CANDIDATE_3,JOB_1055,"['sql', 'sql server']","['sql', 'sql server', 'ai', 'api']",0.6915130371259923,MOS,"['sql', 'sql server']"
+13,CANDIDATE_3,JOB_1198,['database'],"['software', 'database']",0.745591623540689,MOS,['database']
+14,CANDIDATE_3,JOB_1539,['sales'],"['software', 'sales']",0.753397748255735,MOS,['sales']
+15,CANDIDATE_3,JOB_1580,['sql'],"['sql', 'automation']",0.6237115046493764,MOS,['sql']
+16,CANDIDATE_88,JOB_1356,['software'],['software'],1.0963046615256953,MOS,['software']
+17,CANDIDATE_88,JOB_2140,['software'],"['software', 'hardware']",1.0963046615256953,MOS,['software']
+18,CANDIDATE_88,JOB_1891,['software'],['software'],1.3525178654950951,MOS,['software']
+19,CANDIDATE_88,JOB_1573,['software'],['software'],1.3097394755078575,MOS,['software']
+20,CANDIDATE_88,JOB_1748,['software'],['software'],1.1175135080572671,MOS,['software']
+21,CANDIDATE_5,JOB_1674,"['python', 'machine learning']","['python', 'deep learning', 'machine learning', 'ai']",0.5766399005921,MDS,"['python', 'machine learning']"
+22,CANDIDATE_5,JOB_1272,['html'],"['javascript', 'angular', 'html']",0.4047619047619047,MDS,['html']
+23,CANDIDATE_5,JOB_1120,['python'],"['python', 'fullstack']",0.5769230769230769,MDS,['python']
+24,CANDIDATE_5,JOB_1574,['python'],"['python', 'software']",0.5909090909090909,MDS,['python']
+25,CANDIDATE_5,JOB_1275,"['python', 'machine learning']","['python', 'computer vision', 'natural language processing', 'deep learning', 'machine learning']",0.4,MDS,"['python', 'machine learning']"
+26,CANDIDATE_6,JOB_1579,[],"['software', 'typography', 'illustrator', 'photoshop']",0.312816579386834,MDS,[]
+27,CANDIDATE_6,JOB_1257,"['python', 'machine learning']","['python', 'sql', 'nosql', 'machine learning', 'git', 'api']",0.3703703703703703,MDS,"['python', 'machine learning']"
+28,CANDIDATE_6,JOB_1139,['python'],"['python', 'java', 'aws', 'google cloud platform', 'microsoft azure', 'cloud', 'platform', 'docker', 'kubernetes']",0.4127176630671406,MDS,['python']
+29,CANDIDATE_6,JOB_1588,[],"['software', 'illustrator', 'photoshop', 'adobe photoshop', 'adobe illustrator']",0.4398428882692097,MDS,[]
+30,CANDIDATE_6,JOB_462,"['python', 'ai']","['python', 'sql', 'postgresql', 'opencv', 'ai', 'database', 'data processing']",0.4246120399045624,MDS,"['python', 'ai']"
+31,CANDIDATE_7,JOB_2030,['network'],"['network', 'security', 'api', 'network security']",0.5496082954711137,MDS,['network']
+32,CANDIDATE_7,JOB_995,"['sql', 'software']","['java', 'java spring', 'spring boot', 'sql', 'nosql', 'mysql', 'postgresql', 'mongodb', 'restful', 'software']",0.5753376140747604,MDS,"['sql', 'software']"
+33,CANDIDATE_7,JOB_1978,['software'],"['software', 'typography', 'illustrator', 'photoshop']",0.4288333436644964,MDS,['software']
+34,CANDIDATE_7,JOB_1329,['network'],"['network', 'security', 'hardware']",0.3636363636363636,MDS,['network']
+35,CANDIDATE_7,JOB_2269,['software'],"['software', 'typography']",0.5747533923656674,MDS,['software']
+36,CANDIDATE_8,JOB_2446,"['sql', 'mysql']","['javascript', 'c', 'jquery', 'sql', 'mysql', 'redis', 'sql server', 'elasticsearch', 'html', 'css', 'restful', 'kafka', 'rabbitmq', 'api']",0.3480530914540658,MDS,"['sql', 'mysql']"
+37,CANDIDATE_8,JOB_1889,"['python', 'sql', 'mysql']","['python', 'javascript', 'react', 'angular', 'django', 'flask', 'sql', 'nosql', 'mysql', 'postgresql', 'mongodb', 'html', 'css', 'database']",0.3651650882540399,MDS,"['python', 'sql', 'mysql']"
+38,CANDIDATE_8,JOB_1135,"['sql', 'mysql']","['javascript', 'sql', 'nosql', 'mysql', 'postgresql', 'mongodb', 'html', 'css', 'devops', 'azure devops', 'docker', 'kubernetes']",0.3718626152635896,MDS,"['sql', 'mysql']"
+39,CANDIDATE_8,JOB_1196,['sql'],"['winforms', 'sql', 'database']",0.5665105476480184,MDS,['sql']
+40,CANDIDATE_8,JOB_1653,[],['automation'],0.4274915595769227,MDS,[]
+41,CANDIDATE_9,JOB_1381,[],"['ai', 'designer', 'product designer']",0.1068228373121797,NTS,[]
+42,CANDIDATE_9,JOB_30,['python'],"['python', 'sql', 'microsoft azure', 'software', 'ci cd', 'cloud', 'mlops', 'platform', 'etl', 'agile', 'scrum', 'kanban', 'databricks']",0.1509707255144742,NTS,['python']
+43,CANDIDATE_9,JOB_1014,[],['sales'],0.0857393825795126,NTS,[]
+44,CANDIDATE_9,JOB_1232,[],"['javascript', 'html5', 'git']",0.2767419230537622,NTS,[]
+45,CANDIDATE_9,JOB_2195,[],"['software', 'illustrator', 'photoshop']",0.2246963129669987,NTS,[]
+46,CANDIDATE_140,JOB_1206,[],"['kotlin', 'oop']",0.1669225054791457,NTS,[]
+47,CANDIDATE_140,JOB_2199,[],"['python', 'java', 'sql', 'hadoop', 'etl']",0.2405118854227513,NTS,[]
+48,CANDIDATE_140,JOB_10,[],"['typescript', 'react', 'html', 'css', 'restful', 'unit test', 'frontend', 'performance', 'git', 'optimization', 'jest', 'api']",0.0,NTS,[]
+49,CANDIDATE_140,JOB_1967,['security'],"['aws', 'cloud', 'network', 'security', 'network security']",0.2555555555555555,NTS,['security']
+50,CANDIDATE_140,JOB_1189,[],"['python', 'sql', 'etl']",0.0476190476190476,NTS,[]

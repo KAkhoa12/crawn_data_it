@@ -1,16 +1,38 @@
 Các khó khăn:
-1. Thiếu dữ liệu rất nhiều từ tập CR và JD ( khắc phục là tìm kiếm và bổ sung)
-2. Chênh lệch dữ liệu rất nhiều JD là > 2k, CR chỉ có ~ 840
-3. Dữ liệu của data để huấn luyện trong tập jd_cr_similarity.csv 
-+ Ban đầu lấy các trường như
- 'primary_skills', 
- 'secondary_skill',	
- 'adjectives',	
- 'adj_weight',	
- 'total_similarity' 
-để huấn luyện đầu vào và đầu ra là 'suitability'
-=> Tuy nhiên kết quả lại bị overfiting do mô hình học quá đúng dữ liệu tính toán từ suitability nên diễn ra bị học vẹt (Cách khắc phục là chỉ cần cho học primary_skills thì kết quả tuy không cao nhưng nó chính xác 1 phần )
+1.  
+Vấn đề: Ban đầu sử dụng 2 file primary_skills.txt và secondary_skills.txt để trích xuất các kỹ năng tỏng JD và CR 
+=> Kết quả không đạt như mong muốn do biểu đồ heatmap cho thấy class suitability sẽ phụ thuộc vào adj_simality và adj_weight nhiều hơn mà không phải là primary_skills hoặc secondary_skills
+
+Khắc phục: Gộp chung primary_skills và secondary_skill vào trong 1 file là skills.txt để trích xuất các kỹ năng trong JD và CR, Thay đổi cách trích xuất 4 cụm từ JD và CR sẽ khác
+-> Trích xuất các 4 cụm từ JD trước và CR sẽ dựa vào trong JD để lấy các kỹ năng còn lại 
+=> Kết quả đạt kết quả như mong muốn, biểu đồ heatmap cho thấy primary_skill sẽ tương quan nhiều hơn với suitability, mô hình học tốt hơn 
+
+2. 
+Vấn đề: Ban đầu dữ liệu được xuất ra từ file jacarrd.ipynb không được làm sạch và có chứa nhiễu do quá trình trích xuất
+=> dẫn đến kết quả học của mô hình không tốt
+
+Khắc phục: Làm sạch dữ liệu bằng cách loại bỏ các cặp JD-CR có similarity = 0 và các cặp JD-CR có cùng category
+=> Mô hình học tốt hơn, độ chính xác tăng lên đáng kể
+
+3
+Vấn đề: Ban đầu chỉ có ít dữ liệu để huấn luyện mô hình
+=> dẫn đến mô hình học không tốt, dễ bị overfitting
+
+Khắc phục: Tăng cường dữ liệu bằng cách sử dụng thêm tập csv topcv
+=> Mô hình học tốt hơn, độ chính xác tăng lên đáng kể
 
 
-Mô hình đạt 69% dự đoán 
-ví dụ mô hình có 100 dòng -> dự đoán đúng 69 dòng 
+
+4. 
+Ban đầu: Bảng JD -> 4 cụm: primary_skills, secondary_skills, adj,adv
+         Bảng CR -> 3 cụm: skills, adj,adv
+         Bảng match -> Lấy tất cả các JD x CR 
+                CR -> skills_CR x primary_skills_JD -> primary_skills_CR
+                CR -> skills_CR - primary_skills_JD -> secondary_skills_CR
+                skills_cr: [python,java,aws,go,rust]
+                primary_skills_jd:['python','java','c#]
+                primary_skills_CR :[python, java]
+                secondary_skills_CR: [aws,go,rust]
+                secondary_skill_JD: [aws,backend] 
+             => THu được bảng CR với 4 cụm về CR là primary_skill_CR, secondary_skills_CR, adj_CR, adv_CR
+         Bảng jaccard: primary_sim, secondary_sim, adj_sim, adj_weight_CR
