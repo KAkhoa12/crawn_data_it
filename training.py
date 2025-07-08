@@ -148,7 +148,7 @@ class PrimarySimTrainer:
         print(f"📊 Final dataset: {self.X.shape[0]} samples, {self.X.shape[1]} features")
         self.print_step("✅ Data preprocessing completed!")
 
-    def split_data(self, test_size=0.10, val_size=0.20):
+    def split_data(self, test_size=0.1, val_size=0.1):
         """Split data with stratification"""
         self.print_step("✂️ Splitting data into train/val/test sets...")
         X_temp, self.X_test, y_temp, self.y_test = train_test_split(
@@ -203,7 +203,10 @@ class PrimarySimTrainer:
         test_precision = precision_score(self.y_test, test_pred, average='weighted')
         test_recall = recall_score(self.y_test, test_pred, average='weighted')
         test_f1 = f1_score(self.y_test, test_pred, average='weighted')
-        
+        test_precision_per_class = precision_score(self.y_test, test_pred, average=None)
+        test_recall_per_class = recall_score(self.y_test, test_pred, average=None)
+        test_f1_per_class = f1_score(self.y_test, test_pred, average=None)
+        class_names = sorted(self.y_test.unique())
         training_time = time.time() - start_time
         self.print_step(f"✅ {name} training completed in {training_time:.1f}s")
         print(f"  🏆 Best params: {search.best_params_}")
@@ -253,7 +256,12 @@ class PrimarySimTrainer:
             'model': best_model,
             'cv_score': cv_results['mean_test_score'][best_index],
             'report_path': report_path,
-            'matrix_path': matrix_path
+            'matrix_path': matrix_path,
+            'test_precision_per_class': test_precision_per_class,
+            'test_recall_per_class': test_recall_per_class,
+            'test_f1_per_class': test_f1_per_class,
+            'class_names': class_names
+
         }
 
     def train_models(self):
@@ -401,6 +409,30 @@ class PrimarySimTrainer:
             f.write(f"Recall: {best_recall:.6f}\n")
             f.write(f"F1-Score: {best_f1:.6f}\n\n")
             f.write("Cross-Validation Scores:\n")
+            f.write("\n\nDETAILED PER-CLASS METRICS\n")
+            f.write("="*60 + "\n")
+
+            for model_name, metrics in sorted_results:
+                f.write(f"\n{model_name.upper()}\n")
+                f.write("-" * len(model_name.upper()) + "\n")
+                
+                class_names = metrics['class_names']
+                precision_per_class = metrics['test_precision_per_class']
+                recall_per_class = metrics['test_recall_per_class']
+                f1_per_class = metrics['test_f1_per_class']
+                
+                f.write(f"{'Class':<10} | {'Precision':<10} | {'Recall':<10} | {'F1-Score':<10}\n")
+                f.write("-" * 50 + "\n")
+                
+                for i, class_name in enumerate(class_names):
+                    f.write(f"{class_name:<10} | {precision_per_class[i]:<10.4f} | "
+                            f"{recall_per_class[i]:<10.4f} | {f1_per_class[i]:<10.4f}\n")
+                
+                # Overall metrics
+                f.write("-" * 50 + "\n")
+                f.write(f"{'Overall':<10} | {metrics['test_precision']:<10.4f} | "
+                        f"{metrics['test_recall']:<10.4f} | {metrics['test_f1']:<10.4f}\n")
+                f.write("\n")
             f.write(f"Mean: {np.mean(cv_scores):.6f}\n")
             f.write(f"Std: {np.std(cv_scores):.6f}\n")
             f.write(f"Scores: {cv_scores}\n")
