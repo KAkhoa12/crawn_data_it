@@ -12,7 +12,7 @@ import re
 import json
 import unicodedata
 
-router = APIRouter(prefix="/job", tags=["Job Description Processing"])
+router = APIRouter(prefix="/job", tags=["Job Processing"])
 
 # Load spaCy model
 nlp_en = spacy.load('en_core_web_md')
@@ -120,3 +120,27 @@ async def extract_all_features_jd_api(
 
     return JobResponse4Cluster(**features)
 
+@router.get("/extract/all-features-in-DB")
+async def extract_all_features_in_DB(
+    db: Session = Depends(get_db)
+):
+    try:
+        jobs = db.query(JobModel).all()
+        for job in jobs:
+            cleaned_description = clean_text_for_matching(job.description)
+            cleaned_required = clean_text_for_matching(job.required)
+            features = extract_all_features(cleaned_required, cleaned_description)
+            job.primary_skills = features['skills_required']
+            job.secondary_skills = features['secondary_skills']
+            job.adverbs = features['adverbs']
+            job.adjectives = features['adjectives']
+            job.skills = features['skills_required']
+            db.commit()
+            db.refresh(job)
+        return {"message": "All features extracted and saved to database"}
+    except Exception as e:
+        print(f"❌ Error extracting features from database: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+        
+        
+        

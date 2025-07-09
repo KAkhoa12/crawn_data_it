@@ -33,7 +33,7 @@ def clean_text_for_matching(text):
     text = re.sub(r"/", " ", text)
     text = re.sub(r"(?<=\w):(?=\w)", " ", text)
     text = re.sub(r"([^a-zA-Z0-9\s])\1{2,}", "", text)
-    
+    text = re.sub(r"[<>]", " ", text)  # Thêm xử lý cho ký tự < và >
     
     # Khôi phục các thuật ngữ được bảo vệ
     for i, word in enumerate(protected):
