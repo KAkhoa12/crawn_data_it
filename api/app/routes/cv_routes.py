@@ -52,16 +52,39 @@ def extract_text_from_file(file_content: bytes, content_type: str) -> str:
         return ""
 
 def extract_all_features(text: str) -> Dict[str, List[str]]:
-    skills_list = extract_skills(text, skills)
-    adverbs = extract_adverbs(text, nlp_en)
-    adjectives = extract_adjectives(text, nlp_en)
-
-    return {
-        'skills_required': skills_list,
-        'adverbs': adverbs,
-        'adjectives': adjectives,
+    try:
+        print("📝 Extracting features from text:", text[:100] + "...")  # Debug log
         
-    }
+        # Extract features
+        skills_list = extract_skills(text, skills)
+        print("📝 Extracted skills:", skills_list)  # Debug log
+        
+        adverbs = extract_adverbs(text, nlp_en)
+        print("📝 Extracted adverbs:", adverbs)  # Debug log
+        
+        adjectives = extract_adjectives(text, nlp_en)
+        print("📝 Extracted adjectives:", adjectives)  # Debug log
+
+        # Ensure all values are lists
+        features = {
+            'skills_required': list(skills_list) if skills_list else [],
+            'adverbs': list(adverbs) if adverbs else [],
+            'adjectives': list(adjectives) if adjectives else []
+        }
+        
+        print("📝 Final features:", features)  # Debug log
+        return features
+        
+    except Exception as e:
+        print(f"❌ Error in extract_all_features: {str(e)}")
+        print(f"❌ Error type: {type(e)}")
+        print(f"❌ Error details: {e.__dict__}")
+        # Return empty lists if extraction fails
+        return {
+            'skills_required': [],
+            'adverbs': [],
+            'adjectives': []
+        }
 
 @router.post("/extract/skills", response_model=PrimarySkillsResponse)
 async def extract_primary_skills_api(file: UploadFile = File(...)):
@@ -112,11 +135,17 @@ async def extract_all_features_api(
 
     # Extract features
     features = extract_all_features(text)
+    print("📝 Extracted features:", features)  # Debug log
+
+    # Convert lists to strings for text fields
+    skills_str = ', '.join(features['skills_required']) if features['skills_required'] else ""
+    print("📝 Skills string:", skills_str)  # Debug log
 
     # Save to database - Check if CV exists for this seeker_id
     try:
         # Check if CV already exists for this seeker_id
         existing_cv = db.query(CVModel).filter(CVModel.seeker_id == seeker_id).first()
+        print("📝 Existing CV:", existing_cv)  # Debug log
 
         if existing_cv:
             # Delete all existing matches for this CV before updating
@@ -126,12 +155,20 @@ async def extract_all_features_api(
             # Update existing CV
             existing_cv.name = file.filename
             existing_cv.upload_at = datetime.now()
-            existing_cv.skills = ', '.join(features['skills_required'])  # Sử dụng skills_required thay vì primary_skills
-            existing_cv.primary_skills = None
-            existing_cv.experience = None
-            existing_cv.secondary_skills = None
-            existing_cv.adverbs = ', '.join(features['adverbs'])
-            existing_cv.adjectives = ', '.join(features['adjectives'])
+            existing_cv.skills = skills_str
+            existing_cv.primary_skills_list = features['skills_required']  # Use property
+            existing_cv.secondary_skills_list = []  # Use property
+            existing_cv.adverbs_list = features['adverbs']  # Use property
+            existing_cv.adjectives_list = features['adjectives']  # Use property
+            existing_cv.experience = None  # Reset experience
+
+            print("📝 Updated CV fields:", {  # Debug log
+                'name': existing_cv.name,
+                'skills': existing_cv.skills,
+                'primary_skills': existing_cv.primary_skills,
+                'adverbs': existing_cv.adverbs,
+                'adjectives': existing_cv.adjectives
+            })
 
             db.commit()
             db.refresh(existing_cv)
@@ -143,15 +180,23 @@ async def extract_all_features_api(
             cv_record = CVModel(
                 seeker_id=seeker_id,
                 name=file.filename,
-                skills="skills",
-                experience="experiments",
+                skills=skills_str,
+                primary_skills=features['skills_required'],  # Will be converted in __init__
+                secondary_skills=[],  # Will be converted in __init__
+                experience=None,
                 status=1,
                 upload_at=datetime.now(),
-                primary_skills=', '.join(features['skills_required']),
-                secondary_skills=None,
-                adverbs=', '.join(features['adverbs']),
-                adjectives=', '.join(features['adjectives'])
+                adverbs=features['adverbs'],  # Will be converted in __init__
+                adjectives=features['adjectives']  # Will be converted in __init__
             )
+
+            print("📝 New CV record:", {  # Debug log
+                'name': cv_record.name,
+                'skills': cv_record.skills,
+                'primary_skills': cv_record.primary_skills,
+                'adverbs': cv_record.adverbs,
+                'adjectives': cv_record.adjectives
+            })
 
             db.add(cv_record)
             db.commit()
@@ -162,8 +207,13 @@ async def extract_all_features_api(
 
     except Exception as e:  
         db.rollback()
-        print(f"❌ Error saving CV features to database: {e}")
+        print(f"❌ Error saving CV features to database: {str(e)}")
+        print(f"❌ Error type: {type(e)}")  # Debug log
+        print(f"❌ Error details: {e.__dict__}")  # Debug log
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-    return CVResponse4Cluster(**features)
+    # Return the features directly since they're already in the correct format
+    response = CVResponse4Cluster(**features)
+    print("📝 Response:", response)  # Debug log
+    return response
 

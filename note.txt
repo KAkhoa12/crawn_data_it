@@ -36,3 +36,41 @@ Ban đầu: Bảng JD -> 4 cụm: primary_skills, secondary_skills, adj,adv
                 secondary_skill_JD: [aws,backend] 
              => THu được bảng CR với 4 cụm về CR là primary_skill_CR, secondary_skills_CR, adj_CR, adv_CR
          Bảng jaccard: primary_sim, secondary_sim, adj_sim, adj_weight_CR
+
+Luồng đi:
+
+1. Thu thập dữ liệu (Cào dữ liệu từ 2 trang web topcv và itviet ), sau đó kết hợp lại 2 dataset này lại với nhau và sau đó tiền xử lý làm sach dữ liệu -> Kết quả cho ra là tập csv_jd
+2. Tập dữ liệu về CR các ứng viên được lấy từ trên nền tảng kaggle, sau đó tiền xử lý làm sach dữ liệu -> Kết quả cho ra là tập csv_cr -> Lúc này tập csv_cr chưa có các cụm primary_skills, secondary_skills, adj,adv
+3. Kết hợp tập csv_jd và csv_cr lại với nhau để tạo ra tập csv_jd_cr -> Tập này sẽ có các cụm primary_skills, secondary_skills, adj,adv cho cả JD và CR ( Chi tiết xem ở luồng đi khó khăn bên trên )
+4. Từ tập csv_jd_cr, ta sẽ tạo ra tập csv_jd_cr_similarity để tính toán các chỉ số similarity giữa các JD và CR
+5. Sử dụng tập csv_jd_cr_similarity để huấn luyện mô hình
+
+Về thông số mô hình sẽ có chi tiết trong word:
++ Trường hợp giáo viên hỏi tại sao các tham số lại để vào trong [ ] mảng thì trả lời là: Mô hình sẽ thử hết tất cả các trường hợp trong mảng và cho ra kết quả tốt nhất
++ Trường hợp giáo viên lại hỏi tiếp làm cái này có lợi và hại gì: Trả lời mặt lợi là sẽ kiểm hết tất cả các trường hợp và cho ra kết quả tốt nhất, mặt hại là sẽ tốn nhiều thời gian để kiểm tra tất cả các trường hợp
+
+Về kết quả của mô hình có chi tiết trong word: 
+- Tập trung phân tích kết quả của mô hình dựa trên các thông số sau:
++ Accuracy
++ Precision
++ Recall
++ F1-score
+
++ Accuracy là phần trăm dự đoán chính xác của mô hình trên các lớp (MOS,NOT, MDS)
++ Precision là phần trăm dự đoán chính xác của mô hình trên các lớp dự đoán (MOS,NOT, MDS)
+Ví dụ: Mô hình dự đoán có 100 CV, trong đó có 90 CV được dự đoán là MOS, trong đó có 80 CV được dự đoán là MOS là đúng, thì precision của lớp MOS là 80/90 = 0.8333
++ Recall là phần trăm dự đoán chính xác của mô hình trên các lớp thực tế (MOS,NOT, MDS)
+Ví dụ: Mô hình dự đoán có 100 CV, trong đó có 80 CV là MOS, trong đó có 70 CV được dự đoán là MOS là đúng, thì recall của lớp MOS là 70/80 = 0.8333
++ F1-score là trung bình điều hòa của Precision và Recall
+Ví dụ: F1-score của lớp MOS là 2 * 0.8333 * 0.8333 / (0.8333 + 0.8333) = 0.8333
+
+Các câu hỏi thường gặp về khi nói về ML:
+- Chia tỷ lệ mô hình là bao nhiêu -> Chia 80% train và 20% test 
+- Làm sao để biết mô hình có bị overfiting -> Sử dụng tập validation để kiểm tra mô hình, nếu mô hình trên tập validation không cải thiện nhưng trên tập train vẫn cải thiện thì có thể cho là overfitting, dấu hiệu của học vẹt chỉ có thể dự đoán đúng trên tập train nhưng không dự đoán chính xác trong tập test 
+- Làm sao để khắc phục overfiting -> Sử dụng các phương pháp như: tăng dữ liệu, giảm số lượng tham số, sử dụng các phương pháp regularize, sử dụng các phương pháp ensemble learning
+
+
+
+Note mới:
++ Hiển thị những job có độ tương đồng cao nhất
+

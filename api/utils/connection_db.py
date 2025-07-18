@@ -5,6 +5,8 @@ from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel
 from datetime import datetime
 import os
+import json
+from typing import List, Optional
 
 DATABASE_URL = f"mysql+pymysql://{os.getenv('DB_USER', 'root')}:{os.getenv('DB_PASSWORD', '')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '3306')}/{os.getenv('DB_NAME', 'jobs')}"
 
@@ -16,6 +18,22 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Base class for models
 Base = declarative_base()
+
+def serialize_list(value: Optional[List[str]]) -> Optional[str]:
+    """Convert list to JSON string, handling None values"""
+    if value is None:
+        return None
+    return json.dumps(list(value))
+
+def deserialize_list(value: Optional[str]) -> List[str]:
+    """Convert JSON string to list, handling None and invalid JSON"""
+    if not value:
+        return []
+    try:
+        result = json.loads(value)
+        return list(result) if isinstance(result, list) else []
+    except (json.JSONDecodeError, TypeError):
+        return []
 
 # CV Model
 class CVModel(Base):
@@ -36,10 +54,54 @@ class CVModel(Base):
     link_git = Column(Text)
     upload_at = Column(DateTime, nullable=False)
     # New columns for features
-    primary_skills = Column(JSON)
-    secondary_skills = Column(JSON)
-    adverbs = Column(JSON)
-    adjectives = Column(JSON)
+    primary_skills = Column(Text)  # Changed from JSON to Text
+    secondary_skills = Column(Text)  # Changed from JSON to Text
+    adverbs = Column(Text)  # Changed from JSON to Text
+    adjectives = Column(Text)  # Changed from JSON to Text
+
+    def __init__(self, **kwargs):
+        # Convert lists to JSON strings before saving
+        if 'primary_skills' in kwargs:
+            kwargs['primary_skills'] = serialize_list(kwargs['primary_skills'])
+        if 'secondary_skills' in kwargs:
+            kwargs['secondary_skills'] = serialize_list(kwargs['secondary_skills'])
+        if 'adverbs' in kwargs:
+            kwargs['adverbs'] = serialize_list(kwargs['adverbs'])
+        if 'adjectives' in kwargs:
+            kwargs['adjectives'] = serialize_list(kwargs['adjectives'])
+        super().__init__(**kwargs)
+
+    @property
+    def primary_skills_list(self) -> List[str]:
+        return deserialize_list(self.primary_skills)
+
+    @primary_skills_list.setter
+    def primary_skills_list(self, value: List[str]):
+        self.primary_skills = serialize_list(value)
+
+    @property
+    def secondary_skills_list(self) -> List[str]:
+        return deserialize_list(self.secondary_skills)
+
+    @secondary_skills_list.setter
+    def secondary_skills_list(self, value: List[str]):
+        self.secondary_skills = serialize_list(value)
+
+    @property
+    def adverbs_list(self) -> List[str]:
+        return deserialize_list(self.adverbs)
+
+    @adverbs_list.setter
+    def adverbs_list(self, value: List[str]):
+        self.adverbs = serialize_list(value)
+
+    @property
+    def adjectives_list(self) -> List[str]:
+        return deserialize_list(self.adjectives)
+
+    @adjectives_list.setter
+    def adjectives_list(self, value: List[str]):
+        self.adjectives = serialize_list(value)
 
 # Job Model
 class JobModel(Base):
@@ -63,10 +125,10 @@ class JobModel(Base):
     work_type_id = Column(Integer, nullable=False)
     category_id = Column(Integer, nullable=False)
     # New columns for features
-    primary_skills = Column(JSON)
-    secondary_skills = Column(JSON)
-    adverbs = Column(JSON)
-    adjectives = Column(JSON)
+    primary_skills = Column(Text)  # Changed from JSON to Text
+    secondary_skills = Column(Text)  # Changed from JSON to Text
+    adverbs = Column(Text)  # Changed from JSON to Text
+    adjectives = Column(Text)  # Changed from JSON to Text
 
 # Matches Model
 class MatchesModel(Base):
@@ -75,6 +137,7 @@ class MatchesModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     cv_id = Column(Integer, nullable=False)
     job_id = Column(Integer, nullable=False)
+    accuracy = Column(Integer, nullable=False)
     matched_skill = Column(Text, nullable=False)
     time_matches = Column(DateTime, nullable=False)
     status = Column(Integer, nullable=False)

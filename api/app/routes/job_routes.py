@@ -126,20 +126,60 @@ async def extract_all_features_in_DB(
 ):
     try:
         jobs = db.query(JobModel).all()
+        updated_count = 0
+        
         for job in jobs:
+            print(f"\n🔄 Processing Job ID: {job.id}")
+            print(f"Title: {job.title}")
+            
+            # Extract features from job description
             cleaned_description = clean_text_for_matching(job.description)
             cleaned_required = clean_text_for_matching(job.required)
-            features = extract_all_features(cleaned_required, cleaned_description)
-            job.primary_skills = features['skills_required']
-            job.secondary_skills = features['secondary_skills']
-            job.adverbs = features['adverbs']
-            job.adjectives = features['adjectives']
-            job.skills = features['skills_required']
-            db.commit()
-            db.refresh(job)
-        return {"message": "All features extracted and saved to database"}
+            
+            # Extract primary skills from required field
+            primary_skills = extract_skills(cleaned_required, skills)
+            print(f"Primary skills: {primary_skills}")
+            
+            # Extract all skills from description
+            all_description_skills = extract_skills(cleaned_description, skills)
+            print(f"All description skills: {all_description_skills}")
+            
+            # Calculate secondary skills (skills in description that are not in primary skills)
+            primary_skills_set = {skill.lower().strip() for skill in primary_skills}
+            all_skills_set = {skill.lower().strip() for skill in all_description_skills}
+            secondary_skills = list(all_skills_set - primary_skills_set)
+            print(f"Secondary skills (after removing primary skills): {secondary_skills}")
+            
+            # Extract other features
+            adverbs = extract_adverbs(cleaned_description, nlp_en)
+            adjectives = extract_adjectives(cleaned_description, nlp_en)
+            
+            # Update job record
+            try:
+                # Convert lists to JSON strings
+                job.primary_skills = json.dumps(primary_skills)
+                job.secondary_skills = json.dumps(secondary_skills)
+                job.adverbs = json.dumps(adverbs)
+                job.adjectives = json.dumps(adjectives)
+                
+                updated_count += 1
+                print(f"✅ Updated features for job {job.id}")
+                
+            except Exception as e:
+                print(f"⚠️ Error updating job {job.id}: {str(e)}")
+                continue
+        
+        # Commit all changes
+        db.commit()
+        return {
+            "message": f"Successfully updated features for {updated_count} jobs",
+            "total_jobs": len(jobs),
+            "updated_jobs": updated_count
+        }
+        
     except Exception as e:
         print(f"❌ Error extracting features from database: {e}")
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
         
         
