@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, JSON
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, JSON, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel
@@ -137,7 +137,8 @@ class MatchesModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     cv_id = Column(Integer, nullable=False)
     job_id = Column(Integer, nullable=False)
-    accuracy = Column(Integer, nullable=False)
+    accuracy = Column(Float, nullable=False)  # Change from Integer to Float
+    label = Column(String(50), nullable=True)  # Add label column
     matched_skill = Column(Text, nullable=False)
     time_matches = Column(DateTime, nullable=False)
     status = Column(Integer, nullable=False)

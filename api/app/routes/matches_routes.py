@@ -42,12 +42,12 @@ preprocessing = None
 metadata = None
 
 class PredictionResponse(BaseModel):
-    suitability_label: str
+    label: str
 
 class MatchResult(BaseModel):
     job_id: int
     job_title: str
-    suitability_label: str
+    label: str
     accuracy: float
     jaccard_scores: Dict[str, float]
     matched_primary_skills: List[str]
@@ -276,7 +276,7 @@ def predict_suitability(similarities: Dict[str, float]) -> Dict:
         }
         
         result = {
-            'suitability_label': suitability_mapping.get(prediction, 'Unknown'),
+            'label': suitability_mapping.get(prediction, 'Unknown'),
             'accuracy': accuracy
         }
         print(f"Final result: {result}")
@@ -288,7 +288,7 @@ def predict_suitability(similarities: Dict[str, float]) -> Dict:
         print(f"Error type: {type(e)}")
         print(f"Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details'}")
         return {
-            'suitability_label': 'Unknown',
+            'label': 'Unknown',
             'accuracy': 0.0
         }
 
@@ -410,21 +410,21 @@ async def match_cv_with_all_jobs(cv_id: int, db: Session = Depends(get_db)):
                     # Predict suitability using the model
                     try:
                         prediction = predict_suitability(similarities['jaccard_scores'])
-                        suitability_label = prediction['suitability_label']
+                        label = prediction['label']
                         accuracy = prediction['accuracy']
-                        write_log(cv_id, f"Prediction: {suitability_label}, Accuracy: {accuracy:.4f}")
+                        write_log(cv_id, f"Prediction: {label}, Accuracy: {accuracy:.4f}")
                     except Exception as e:
                         write_log(cv_id, f"⚠️ Warning: Could not predict suitability for job {job.id}: {e}")
-                        suitability_label = "Unknown"
+                        label = "Unknown"
                         accuracy = 0.0
 
                     # Only process suitable matches
-                    if suitability_label in ['Moderately Suitable', 'Most Suitable']:
+                    if label in ['Moderately Suitable', 'Most Suitable']:
                         # Create match result for response
                         match_result = MatchResult(
                             job_id=job.id,
                             job_title=job.title,
-                            suitability_label=suitability_label,
+                            label=label,
                             accuracy=accuracy,
                             jaccard_scores=similarities['jaccard_scores'],
                             matched_primary_skills=matched_primary_skills,
@@ -442,7 +442,8 @@ async def match_cv_with_all_jobs(cv_id: int, db: Session = Depends(get_db)):
                                 matched_skill=matched_skills_str,
                                 time_matches=datetime.now(),
                                 status=1,
-                                accuracy=accuracy
+                                accuracy=accuracy,
+                                label=label  # Add label to database
                             )
                             new_matches.append(new_match)
                             write_log(cv_id, f"✅ Added suitable match for job {job.id}")
@@ -471,8 +472,9 @@ async def match_cv_with_all_jobs(cv_id: int, db: Session = Depends(get_db)):
         write_log(cv_id, f"❌ {error_msg}")
         raise HTTPException(status_code=500, detail=error_msg)
 
-    # Sắp xếp matches theo accuracy giảm dần
-    suitable_matches.sort(key=lambda x: x.accuracy, reverse=True)
+    # Sắp xếp matches theo label giảm dần (Most Suitable -> Moderately Suitable)
+    label_order = {'Most Suitable': 2, 'Moderately Suitable': 1}
+    suitable_matches.sort(key=lambda x: (label_order.get(x.label, 0), x.accuracy), reverse=True)
 
     write_log(cv_id, f"\nMatching process completed. Found {len(suitable_matches)} suitable matches.")
     
