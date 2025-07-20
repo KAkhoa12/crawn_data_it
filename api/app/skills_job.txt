@@ -1,0 +1,50 @@
+C#
+Java  
+React.js
+Node.js
+C++  
+Game  
+Unity  
+Rust  
+Ruby on Rails  
+Ruby  
+ASP.NET  
+Artificial Intelligence
+Cloud  
+DevOps  
+MLOps  
+Python  
+JavaScript  
+TypeScript  
+Go  
+Kotlin  
+Swift  
+PHP  
+Dart  
+SQL  
+AI  
+Machine Learning  
+Deep Learning
+ML
+DL
+Data Science  
+Frontend  
+Backend  
+Fullstack  
+Mobile  
+Web  
+Data
+Security  
+Testing  
+UI/UX Design  
+Project Manager  
+Business Analyst  
+QA/QC  
+Tester  
+Product Manager  
+System Admin  
+Network Admin  
+Data Analyst  
+Database Administrator  
+Scrum Master  
+Technical Writer

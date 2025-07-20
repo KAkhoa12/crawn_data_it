@@ -5,7 +5,7 @@ from app.routes.root_routes import router as root_router
 from app.routes.cv_routes import router as cv_router
 from  app.routes.job_routes import router as job_router
 from  app.routes.matches_routes import router as matches_router
-
+from  app.routes.application_routes import router as application_router
 # Download required NLTK data
 nltk.download('punkt')
 try:
@@ -25,7 +25,29 @@ app.include_router(root_router)
 app.include_router(cv_router)
 app.include_router(job_router)
 app.include_router(matches_router)
+app.include_router(application_router)
 
+
+# Start scheduler on application startup
+@app.on_event("startup")
+async def start_scheduler():
+    from app.routes.application_routes import scheduler, process_matches
+    if not scheduler.running:
+        scheduler.add_job(
+            process_matches,
+            'interval',
+            seconds=10,
+            id='process_matches_job',
+            replace_existing=True
+        )
+        scheduler.start()
+
+# Shutdown scheduler when application stops
+@app.on_event("shutdown")
+async def shutdown_scheduler():
+    from app.routes.application_routes import scheduler
+    if scheduler.running:
+        scheduler.shutdown()
 if __name__ == "__main__":
     import uvicorn
     
