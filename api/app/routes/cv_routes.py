@@ -8,6 +8,7 @@ from utils.read_file import read_skills
 from schemas.cv_schemas import CVResponse4Cluster
 from utils.extract import extract_skills, extract_adjectives, extract_adverbs, clean_text_for_matching
 from utils.connection_db import get_db, CVModel, MatchesModel
+from utils.translate import detect_and_translate, translate_list
 from sqlalchemy.orm import Session
 import spacy
 from docx import Document
@@ -55,14 +56,18 @@ def extract_all_features(text: str) -> Dict[str, List[str]]:
     try:
         print("📝 Extracting features from text:", text[:100] + "...")  # Debug log
         
-        # Extract features
-        skills_list = extract_skills(text, skills)
+        # Translate text to English if it's in Vietnamese
+        translated_text = detect_and_translate(text)
+        print("📝 Translated text (if needed):", translated_text[:100] + "...")  # Debug log
+        
+        # Extract features from translated text
+        skills_list = extract_skills(translated_text, skills)
         print("📝 Extracted skills:", skills_list)  # Debug log
         
-        adverbs = extract_adverbs(text, nlp_en)
+        adverbs = extract_adverbs(translated_text, nlp_en)
         print("📝 Extracted adverbs:", adverbs)  # Debug log
         
-        adjectives = extract_adjectives(text, nlp_en)
+        adjectives = extract_adjectives(translated_text, nlp_en)
         print("📝 Extracted adjectives:", adjectives)  # Debug log
 
         # Ensure all values are lists

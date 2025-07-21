@@ -6,6 +6,7 @@ from schemas.job_schemas import JobResponse4Cluster
 from utils.read_file import read_skills
 from utils.extract import extract_skills, extract_adjectives, extract_adverbs, clean_text_for_matching
 from utils.connection_db import get_db, JobModel
+from utils.translate import detect_and_translate, translate_list
 from sqlalchemy.orm import Session
 import spacy
 import re
@@ -21,10 +22,14 @@ nlp_en = spacy.load('en_core_web_md')
 skills = read_skills('app/skills.txt')
 
 def extract_all_features(text_required: str, text_description: str) -> Dict[str, List[str]]:
-    primary_skills_list = extract_skills(text_required, skills)
-    secondary_skills_list = extract_skills(text_description, skills)
-    adverbs = extract_adverbs(text_description, nlp_en)
-    adjectives = extract_adjectives(text_description, nlp_en)
+    # Translate both required and description text if they're in Vietnamese
+    translated_required = detect_and_translate(text_required)
+    translated_description = detect_and_translate(text_description)
+    
+    primary_skills_list = extract_skills(translated_required, skills)
+    secondary_skills_list = extract_skills(translated_description, skills)
+    adverbs = extract_adverbs(translated_description, nlp_en)
+    adjectives = extract_adjectives(translated_description, nlp_en)
 
     return {
         'skills_required': primary_skills_list,
@@ -132,16 +137,20 @@ async def extract_all_features_in_DB(
             print(f"\n🔄 Processing Job ID: {job.id}")
             print(f"Title: {job.title}")
             
-            # Extract features from job description
+            # Extract and translate features from job description
             cleaned_description = clean_text_for_matching(job.description)
             cleaned_required = clean_text_for_matching(job.required)
             
-            # Extract primary skills from required field
-            primary_skills = extract_skills(cleaned_required, skills)
+            # Translate cleaned text if it's in Vietnamese
+            translated_description = detect_and_translate(cleaned_description)
+            translated_required = detect_and_translate(cleaned_required)
+            
+            # Extract primary skills from translated required field
+            primary_skills = extract_skills(translated_required, skills)
             print(f"Primary skills: {primary_skills}")
             
-            # Extract all skills from description
-            all_description_skills = extract_skills(cleaned_description, skills)
+            # Extract all skills from translated description
+            all_description_skills = extract_skills(translated_description, skills)
             print(f"All description skills: {all_description_skills}")
             
             # Calculate secondary skills (skills in description that are not in primary skills)
@@ -150,9 +159,9 @@ async def extract_all_features_in_DB(
             secondary_skills = list(all_skills_set - primary_skills_set)
             print(f"Secondary skills (after removing primary skills): {secondary_skills}")
             
-            # Extract other features
-            adverbs = extract_adverbs(cleaned_description, nlp_en)
-            adjectives = extract_adjectives(cleaned_description, nlp_en)
+            # Extract other features from translated description
+            adverbs = extract_adverbs(translated_description, nlp_en)
+            adjectives = extract_adjectives(translated_description, nlp_en)
             
             # Update job record
             try:
