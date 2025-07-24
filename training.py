@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, RandomizedSearchCV, KFold, cross_val_score
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.ensemble import AdaBoostClassifier 
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.preprocessing import RobustScaler
 import xgboost as xgb
@@ -280,18 +281,17 @@ class PrimarySimTrainer:
         results['LogisticRegression'] = self.train_model("Logistic Regression", lr_base, lr_params)
         
         # 2. Random Forest
-        rf_params = {
-            'n_estimators': [300, 500, 700],
+        dt_params = {
+            'criterion': ['gini', 'entropy'],
+            'splitter': ['best', 'random'],
             'max_depth': [10, 15, 20, None],
             'min_samples_split': [2, 5, 10],
             'min_samples_leaf': [1, 2, 4],
-            'max_features': ['sqrt', 'log2', 0.8],
-            'bootstrap': [True, False],
-            'criterion': ['gini', 'entropy'],
-            'class_weight': ['balanced']
+            'max_features': ['sqrt', 'log2', None],
+            'class_weight': ['balanced', None]
         }
-        rf_base = RandomForestClassifier(random_state=42, n_jobs=-1)
-        results['RandomForest'] = self.train_model("Random Forest", rf_base, rf_params)
+        dt_base = DecisionTreeClassifier(random_state=42)
+        results['DecisionTree'] = self.train_model("Decision Tree", dt_base, dt_params)
         
         # 3. AdaBoost
         ada_params = {

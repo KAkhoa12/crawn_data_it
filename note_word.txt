@@ -1,0 +1,2 @@
+1. Trang 21 
+Sửa lại vì không áp dụng các kỹ thuật xử lý ngôn ngữ tự nhiên ( NLP)
